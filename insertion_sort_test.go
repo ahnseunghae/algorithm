@@ -6,18 +6,28 @@ import (
 )
 
 func TestSort(t *testing.T) {
-	items := []int{5, 4, 3, 2, 1}
-	expected := []int{1, 2, 3, 4, 5}
-
-	results, err := sort(items)
-
-	if err != nil {
-		t.Error(err)
+	var testCases = []struct {
+		items    []int
+		expected []int
+	}{
+		{[]int{5, 4, 3, 2, 1}, []int{1, 2, 3, 4, 5}},
+		{[]int{1, 1, 1}, []int{1, 1, 1}},
+		{[]int{1, 2, 2, 3, 4}, []int{1, 2, 2, 3, 4}},
+		{[]int{5, 5, 3, 2, 1}, []int{1, 2, 3, 5, 5}},
 	}
 
-	if reflect.DeepEqual(results, expected) != true {
-		t.Error("expected result is different", results)
+	for _, tc := range testCases {
+		results, err := sort(tc.items)
+
+		if err != nil {
+			t.Error(err)
+		}
+
+		if reflect.DeepEqual(results, tc.expected) != true {
+			t.Errorf("expected: %v, got: %v", tc.expected, results)
+		}
 	}
+
 }
 
 func TestEmpty(t *testing.T) {
